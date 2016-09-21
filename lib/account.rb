@@ -14,8 +14,19 @@ class Account
     @account.merge! transaction
   end
 
-  def balance
-    @balance = @account.values.reduce(:+)
+  def balance balance_date
+    @balance = @account.select { |date, value| date <= balance_date }.values.reduce(&:+)
+  end
+
+  def account_statement statement_date
+    statement = @account.select { |date, value| date <= statement_date }
+    statement.each do |date, value|
+      if value < 0
+        puts "#{date}|| ||#{-value} || #{balance(date)}"
+      else
+        puts "#{date} || #{value} || || #{balance(date)}"
+      end
+    end
   end
 
 end
