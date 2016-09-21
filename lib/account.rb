@@ -19,12 +19,12 @@ class Account
   end
 
   def account_statement statement_date
-    statement = @account.select { |date, value| date <= statement_date }
+    statement = @account.select { |date, value| date.strftime('%d/%m/%Y') <= statement_date }
     statement.each do |date, value|
       if value < 0
-        puts "#{date}|| ||#{-value} || #{balance(date)}"
+        puts "#{date.strftime('%d/%m/%Y')}|| || #{-value}|| #{balance(date)}"
       else
-        puts "#{date} || #{value} || || #{balance(date)}"
+        puts "#{date.strftime('%d/%m/%Y')}|| #{value}|| || #{balance(date)}"
       end
     end
   end

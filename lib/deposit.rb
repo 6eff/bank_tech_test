@@ -7,7 +7,7 @@ attr_reader :deposits
     @deposits = {}
   end
 
-  def place_deposit(amount, date = Time.now.strftime('%d/%m/%Y'))
+  def place_deposit(amount, date = Time.now)
     @deposits.store(date, amount)
   end
 

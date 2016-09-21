@@ -7,7 +7,7 @@ class Withdrawal
     @withdrawals = {}
   end
 
-  def withdraw_from_account(amount, date = Time.now.strftime('%d/%m/%Y'))
+  def withdraw_from_account(amount, date = Time.now)
     @withdrawals.store(date,-amount)
   end
 

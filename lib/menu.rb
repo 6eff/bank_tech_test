@@ -3,12 +3,13 @@ require './lib/deposit'
 require './lib/withdrawal'
 
 class Menu
-  attr_reader :account
 
-  MENU = ['Deposit', 'Withdrawal', 'Account statement']
+  MENU = ['Deposit', 'Withdrawal', 'Account statement', 'Exit']
 
   def initialize
     @account = Account.new
+    @deposit = Deposit.new @account
+    @withdrawal = Withdrawal.new @account
   end
 
   def print_menu
@@ -21,15 +22,13 @@ class Menu
   def select_action(action = STDIN.gets.to_i)
     if action == 1
       puts "Please enter amount to be deposited and hit enter"
-      deposit = Deposit.new(@account)
-      deposit.place_deposit(STDIN.gets.to_i)
-      @account.account_transactions deposit.deposits
+      @deposit.place_deposit(STDIN.gets.to_i)
+      @account.account_transactions @deposit.deposits
       print_menu
     elsif action == 2
       puts "Please enter amount to be withdrawn and hit enter"
-      withdrawal = Withdrawal.new(@account)
-      withdrawal.withdraw_from_account(STDIN.gets.to_i)
-      @account.account_transactions withdrawal.withdrawals
+      @withdrawal.withdraw_from_account(STDIN.gets.to_i)
+      @account.account_transactions @withdrawal.withdrawals
       print_menu
     elsif action == 3
       puts "Please enter statement date in dd/mm/YYYY format and hit enter"
@@ -37,6 +36,9 @@ class Menu
       puts "date || credit || debit || balance"
       @account.account_statement(statement_date)
       print_menu
+    elsif action == 4
+      puts "Goodby!"
+      return
     else
       print_menu
     end
